@@ -26,3 +26,14 @@ def RK4 (fonct_u, fonct_v, val_init, range):
         v += (k1v +2*k2v +2*k3v +k4v)/6
 
     return upoints, vpoints, tpoints
+
+def graph(fct, axe_x):
+    plt.figure(figsize=(16,8))
+    plt.xlabel("Valeur de x")
+    plt.ylabel("Resultat de l'equation")
+    plt.title("Zeros d'un systeme d'equations lineaires")
+    plt.grid()
+    plt.plot(axe_x, fct(axe_x), "k-")
+    plt.show()
+
+RK4()
