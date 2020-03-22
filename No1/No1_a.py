@@ -1,6 +1,6 @@
 from math import sin
-from numpy import arange
-from pylab import plot,xlabel,ylabel,show
+import numpy as np
+import matplotlib.pyplot as plt
 
 def RK4 (fonct_u, fonct_v, val_init, range):
     t0, t1 = range[0], range[1]
@@ -19,21 +19,29 @@ def RK4 (fonct_u, fonct_v, val_init, range):
 
         k1v = h*fonct_v(u, v, t)
         k2v = h*fonct_v(u+0.5*k1v, v, t+0.5*h)
-        k3v = h*fonct_v(x+0.5*k2v, v, t+0.5*h)
-        k4v = h*fonct_v(x +k3v, v, t+h)
+        k3v = h*fonct_v(u+0.5*k2v, v, t+0.5*h)
+        k4v = h*fonct_v(u +k3v, v, t+h)
 
         u += (k1u +2*k2u +2*k3u +k4u)/6
         v += (k1v +2*k2v +2*k3v +k4v)/6
 
     return upoints, vpoints, tpoints
 
-def graph(fct, axe_x):
+def graph(axe_y, axe_x):
     plt.figure(figsize=(16,8))
-    plt.xlabel("Valeur de x")
-    plt.ylabel("Resultat de l'equation")
-    plt.title("Zeros d'un systeme d'equations lineaires")
+    plt.xlabel("t")
+    plt.ylabel("x(t)")
+    plt.title("Graphique de la position en fonction du temps d'un oscillateur harmonique en 1D")
     plt.grid()
-    plt.plot(axe_x, fct(axe_x), "k-")
+    plt.plot(axe_x, axe_y, "k-")
     plt.show()
 
-RK4()
+def u_pt(u, v, t):
+    return 1.0*v + 0.0*u + 0.0*t
+
+def v_pt(u, v, t):
+    return 0.0*v - 1.0*u + 0.0*t
+
+RK4_a = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0])
+
+graph(RK4_a[0], RK4_a[2])
