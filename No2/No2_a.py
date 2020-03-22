@@ -9,6 +9,7 @@ m_A = 3
 m_B = 4
 m_C = 5
 
+G = 4*constants.pi**2
 
 # définition des conditions initiales
 r_Ai = np.array([1.0, 3.0])
@@ -18,13 +19,13 @@ r_Ci = np.array([1.0, -1.0])
 
 def F(corps, r_A, r_B, r_C):
     if corps == "A":
-        return -4*constants.pi**2*(m_B*((r_A-r_B)/(np.linalg.norm(r_A-r_B)**3))+m_C*((r_A-r_C)/(np.linalg.norm(r_A-r_C)**3)))
+        return -G*(m_B*((r_A-r_B)/(np.linalg.norm(r_A-r_B)**3))+m_C*((r_A-r_C)/(np.linalg.norm(r_A-r_C)**3)))
 
     if corps == "B":
-        return -4*constants.pi**2*(m_A*((r_B-r_A)/(np.linalg.norm(r_B-r_A)**3))+m_C*((r_B-r_C)/(np.linalg.norm(r_B-r_C)**3)))
+        return -G*(m_A*((r_B-r_A)/(np.linalg.norm(r_B-r_A)**3))+m_C*((r_B-r_C)/(np.linalg.norm(r_B-r_C)**3)))
 
     if corps == "C":
-        return -4*constants.pi**2*(m_A*((r_C-r_A)/(np.linalg.norm(r_C-r_A)**3))+m_B*((r_C-r_B)/(np.linalg.norm(r_C-r_B)**3)))
+        return -G*(m_A*((r_C-r_A)/(np.linalg.norm(r_C-r_A)**3))+m_B*((r_C-r_B)/(np.linalg.norm(r_C-r_B)**3)))
 
 
 def mouton_3_corps(t_i, t_f, N):
@@ -72,7 +73,7 @@ def graph_3_corps(t_i, t_f, N):
     #point_B, = ax.plot(r_Bi, 'g.')
     #point_C, = ax.plot(r_Ci, 'r.')
     ligne_A, = ax.plot(r_Ai[0], r_Ai[1], 'b-')
-    ligne_B, = ax.plot(r_Bi[0], r_Bi[1],'g-')
+    ligne_B, = ax.plot(r_Bi[0], r_Bi[1], 'g-')
     ligne_C, = ax.plot(r_Ci[0], r_Ci[1], 'r-')
 
     #anim_point_A = lambda i: point_A.set_data(mouton["A"][i])
@@ -92,4 +93,4 @@ def graph_3_corps(t_i, t_f, N):
     plt.show()
 
 
-graph_3_corps(0, 1, 8000)
+graph_3_corps(0, 1, 2000)
