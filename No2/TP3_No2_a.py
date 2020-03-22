@@ -1,6 +1,7 @@
 import numpy as np
 from scipy import constants
 import matplotlib.pyplot as plt
+import datetime
 from matplotlib.animation import FuncAnimation
 
 
@@ -79,6 +80,7 @@ def mouton_3_corps(t_i, t_f, N):
     rA_arr[0][0], rA_arr[0][1] = r_A[0], r_A[1]
     rB_arr[0][0], rB_arr[0][1] = r_B[0], r_B[1]
     rC_arr[0][0], rC_arr[0][1] = r_C[0], r_C[1]
+
     # début des calculs par sauts
     for i, t in enumerate(t_points[1:]):
 
@@ -90,7 +92,6 @@ def mouton_3_corps(t_i, t_f, N):
         r_B = r_B + h*v_B_demie
         r_C = r_C + h*v_C_demie
 
-        # premier calcul pour un demi-saut
         v_A_demie = v_A_demie + h*F("A", r_A, r_B, r_C)
         v_B_demie = v_B_demie + h*F("B", r_A, r_B, r_C)
         v_C_demie = v_C_demie + h*F("C", r_A, r_B, r_C)
@@ -99,12 +100,9 @@ def mouton_3_corps(t_i, t_f, N):
         r_B_demie = r_B_demie + h*v_B
         r_C_demie = r_C_demie + h*v_C
 
-        # deuxième calcul pour compléter le saut
         rA_arr[i+1][0], rA_arr[i+1][1] = r_A[0], r_A[1]
         rB_arr[i+1][0], rB_arr[i+1][1] = r_B[0], r_B[1]
         rC_arr[i+1][0], rC_arr[i+1][1] = r_C[0], r_C[1]
-
-        # print((m_A*r_A+m_B*r_B+m_C*r_C)/(m_A + m_B + m_C))  # centre de masse
     return {"A": rA_arr, "B": rB_arr, "C": rC_arr, "t": t_points}
 
 
@@ -112,6 +110,7 @@ np.set_printoptions(threshold=np.inf)
 
 
 def graph_3_corps(t_i, t_f, N):
+    t_debut = datetime.datetime.now()
     mouton = mouton_3_corps(t_i, t_f, N)
     # print(mouton["C"])
     #fig, ax = plt.subplots()
@@ -143,10 +142,18 @@ def graph_3_corps(t_i, t_f, N):
     #plt.legend()
     #plt.show()
     plt.figure()
-    plt.plot(mouton["A"][:, 0], mouton["A"][:, 1], 'b-')
-    plt.plot(mouton["B"][:, 0], mouton["B"][:, 1], 'g-')
-    plt.plot(mouton["C"][:, 0], mouton["C"][:, 1], 'r-')
+    plt.plot(mouton["A"][:, 0], mouton["A"][:, 1], 'b-', label="Corps A")
+    plt.plot(mouton["B"][:, 0], mouton["B"][:, 1], 'g-', label="Corps B")
+    plt.plot(mouton["C"][:, 0], mouton["C"][:, 1], 'r-', label="Corps C")
+    plt.xlabel("Position en x [-]")
+    plt.ylabel("Position en y [-]")
+    plt.title("Trajectoires des corps A, B, et C pour N={}, t de {} à {}\net les conditions initiales du sous-numéro a)".format(N, t_i, t_f))
+    plt.legend()
+    plt.grid()
+    t_fin = datetime.datetime.now()
+    print(str(t_fin-t_debut))
     plt.show()
 
 
-graph_3_corps(0, 1, 50000)
+if __name__ == "__main__":
+    graph_3_corps(0, 1, 500000)
