@@ -1,4 +1,3 @@
-from math import sin
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -27,11 +26,11 @@ def RK4 (fonct_u, fonct_v, val_init, range):
 
     return upoints, vpoints, tpoints
 
-def graph(axe_y, axe_x):
+def graph(axe_y, axe_x, titre):
     plt.figure(figsize=(16,8))
     plt.xlabel("t")
     plt.ylabel("x(t)")
-    plt.title("Graphique de la position en fonction du temps d'un oscillateur harmonique en 1D")
+    plt.title(titre)
     plt.grid()
     plt.plot(axe_x, axe_y, "k-")
     plt.show()
@@ -42,6 +41,6 @@ def u_pt(u, v, t):
 def v_pt(u, v, t):
     return 0.0*v - 1.0*u + 0.0*t
 
-RK4_a = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0])
-
-graph(RK4_a[0], RK4_a[2])
+if __name__ == "__main__":
+    RK4_a = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0])
+    graph(RK4_a[0], RK4_a[2], "Graphique de la position en fonction du temps d'un oscillateur harmonique en 1D")
