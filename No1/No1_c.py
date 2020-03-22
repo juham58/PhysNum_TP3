@@ -1,7 +1,7 @@
 from No1_a import RK4, graph, u_pt
 
 def v_pt(u, v, t):
-    return -u**3.0 + 0.0*v + 0.0*t
+    return -(u**3.0)
 
 RK4_c1 = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0])
 RK4_c10 = RK4(u_pt, v_pt, [10.0, 0.0], [0.0, 50.0])
