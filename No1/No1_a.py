@@ -1,9 +1,8 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-def RK4 (fonct_u, fonct_v, val_init, range):
+def RK4 (fonct_u, fonct_v, val_init, range, N):
     t0, t1 = range[0], range[1]
-    N = 10000
     h = (t1-t0)/N
     tpoints = np.arange(t0, t1, h)
     upoints, vpoints = [], []
@@ -42,5 +41,5 @@ def v_pt(u, v, t):
     return - 1.0*u
 
 if __name__ == "__main__":
-    RK4_a = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0])
+    RK4_a = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0], 10000)
     graph(RK4_a[0], RK4_a[2], "Graphique de la position en fonction du temps d'un oscillateur harmonique en 1D")
