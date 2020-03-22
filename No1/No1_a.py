@@ -36,10 +36,10 @@ def graph(axe_y, axe_x, titre):
     plt.show()
 
 def u_pt(u, v, t):
-    return 1.0*v + 0.0*u + 0.0*t
+    return 1.0*v
 
 def v_pt(u, v, t):
-    return 0.0*v - 1.0*u + 0.0*t
+    return - 1.0*u
 
 if __name__ == "__main__":
     RK4_a = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0])
