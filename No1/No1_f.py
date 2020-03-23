@@ -21,8 +21,8 @@ if __name__ == "__main__":
     sol4 = solution4.y
 
 #graphique avec x(0) = 1, 2, 3
-    graph(sol1[0], sol1[1], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 1.0 et v(0) = 0.0")
-    graph(sol2[0], sol2[1], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 2.0 et v(0) = 0.0")
-    graph(sol3[0], sol3[1], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 3.0 et v(0) = 0.0")
+    graph(sol1[1], sol1[0], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 1.0 et v(0) = 0.0")
+    graph(sol2[1], sol2[0], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 2.0 et v(0) = 0.0")
+    graph(sol3[1], sol3[0], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 3.0 et v(0) = 0.0")
 #graphique d'une vitesse initiale non-nulle
-    graph(sol4[0], sol4[1], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 3.0 et v(0) = 3.0")
+    graph(sol4[1], sol4[0], "Graphique de l'espace des phases du système de van der Pol avec x(0) = 3.0 et v(0) = 3.0")
