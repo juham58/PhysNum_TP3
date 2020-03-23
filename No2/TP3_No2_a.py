@@ -5,13 +5,13 @@ import datetime
 from matplotlib.animation import FuncAnimation
 
 
+# définition de la constante gravitationnelle
+G = 4*constants.pi**2
+
 # définitions des masses des corps
 m_A = 3
 m_B = 4
 m_C = 5
-
-# définition de la constante gravitationnelle
-G = 4*constants.pi**2
 
 # définition des conditions initiales
 r_Ai = np.array([1.0, 3.0])
@@ -21,6 +21,8 @@ r_Ci = np.array([1.0, -1.0])
 v_Ai = np.array([0.0, 0.0])
 v_Bi = np.array([0.0, 0.0])
 v_Ci = np.array([0.0, 0.0])
+
+cond_init = (m_A, m_B, m_C, r_Ai, r_Bi, r_Ci, v_Ai, v_Bi, v_Ci)
 
 
 def F(corps, r_A, r_B, r_C):
@@ -37,7 +39,7 @@ def F(corps, r_A, r_B, r_C):
                    + m_B*((r_C-r_B)/(np.linalg.norm(r_C-r_B)**3)))
 
 
-def mouton_3_corps(t_i, t_f, N):
+def mouton_3_corps(t_i, t_f, N, slice=0):
     t_points = np.linspace(t_i, t_f, N)
     rA_arr = np.zeros((len(t_points), 2))
     rB_arr = np.zeros((len(t_points), 2))
@@ -103,6 +105,15 @@ def mouton_3_corps(t_i, t_f, N):
         rA_arr[i+1][0], rA_arr[i+1][1] = r_A[0], r_A[1]
         rB_arr[i+1][0], rB_arr[i+1][1] = r_B[0], r_B[1]
         rC_arr[i+1][0], rC_arr[i+1][1] = r_C[0], r_C[1]
+
+    if slice == 0:
+        return {"A": rA_arr, "B": rB_arr, "C": rC_arr, "t": t_points}
+
+    for s in range(slice):
+        rA_arr = np.delete(rA_arr, np.s_[1::2], 0)
+        rB_arr = np.delete(rB_arr, np.s_[1::2], 0)
+        rC_arr = np.delete(rC_arr, np.s_[1::2], 0)
+        t_points = np.delete(t_points, np.s_[1::2], 0)
     return {"A": rA_arr, "B": rB_arr, "C": rC_arr, "t": t_points}
 
 
@@ -112,48 +123,44 @@ np.set_printoptions(threshold=np.inf)
 def graph_3_corps(t_i, t_f, N):
     t_debut = datetime.datetime.now()
     mouton = mouton_3_corps(t_i, t_f, N)
-    # print(mouton["C"])
-    #fig, ax = plt.subplots()
-    #ax.set(xlim=(-5, 5), ylim=(-5, 5))
 
-    # point_A, = ax.plot(r_Ai, 'b.')
-    # point_B, = ax.plot(r_Bi, 'g.')
-    # point_C, = ax.plot(r_Ci, 'r.')
-    #ligne_A, = ax.plot(r_Ai[0], r_Ai[1], 'b-', label="Corps A")
-    #ligne_B, = ax.plot(r_Bi[0], r_Bi[1], 'g-', label="Corps B")
-    #ligne_C, = ax.plot(r_Ci[0], r_Ci[1], 'r-', label="Corps C")
-
-    # anim_point_A = lambda i: point_A.set_data(mouton["A"][i])
-    # anim_point_B = lambda i: point_B.set_data(mouton["B"][i])
-    # anim_point_C = lambda i: point_C.set_data(mouton["C"][i])
-    #anim_ligne_A = lambda i: ligne_A.set_data(mouton["A"][:i, 0], mouton["A"][:i, 1])
-    #anim_ligne_B = lambda i: ligne_B.set_data(mouton["B"][:i, 0], mouton["B"][:i, 1])
-    #anim_ligne_C = lambda i: ligne_C.set_data(mouton["C"][:i, 0], mouton["C"][:i, 1])
-    #anim_titre = lambda i: ax.set_title("Mouvement des trois corps\nà t= {}".format(round(mouton["t"][i:], 3)))
-
-    #frames_anim = len(mouton["t"])
-    # graph_anim_A = FuncAnimation(fig, anim_point_A, frames=frames_anim, interval=1)
-    # graph_anim_B = FuncAnimation(fig, anim_point_B, frames=frames_anim, interval=1)
-    # graph_anim_C = FuncAnimation(fig, anim_point_C, frames=frames_anim, interval=1)
-    #graph_anim_A = FuncAnimation(fig, anim_ligne_A, frames=frames_anim, interval=1)
-    #graph_anim_B = FuncAnimation(fig, anim_ligne_B, frames=frames_anim, interval=1)
-    #graph_anim_C = FuncAnimation(fig, anim_ligne_C, frames=frames_anim, interval=1)
-    #graph_anim_titre = FuncAnimation(fig, anim_titre, frames=frames_anim, interval=1)
-    #plt.legend()
-    #plt.show()
     plt.figure()
     plt.plot(mouton["A"][:, 0], mouton["A"][:, 1], 'b-', label="Corps A")
     plt.plot(mouton["B"][:, 0], mouton["B"][:, 1], 'g-', label="Corps B")
     plt.plot(mouton["C"][:, 0], mouton["C"][:, 1], 'r-', label="Corps C")
     plt.xlabel("Position en x [-]")
     plt.ylabel("Position en y [-]")
-    plt.title("Trajectoires des corps A, B, et C pour N={}, t de {} à {}\net les conditions initiales du sous-numéro a)".format(N, t_i, t_f))
+    plt.title("Trajectoires des corps A, B, et C pour N={}, t={}\net les conditions initiales du sous-numéro a)".format(N, t_i, t_f))
     plt.legend()
     plt.grid()
     t_fin = datetime.datetime.now()
     print(str(t_fin-t_debut))
     plt.show()
 
+def anim_3_corps(t_i, t_f, N, slice):
+    mouton = mouton_3_corps(t_i, t_f, N, slice)
+    fig, ax = plt.subplots()
+    ax.set(xlim=(-5, 5), ylim=(-5, 5))
 
-if __name__ == "__main__":
-    graph_3_corps(0, 1, 500000)
+    ligne_A, = ax.plot(r_Ai[0], r_Ai[1], 'b-', label="Corps A")
+    ligne_B, = ax.plot(r_Bi[0], r_Bi[1], 'g-', label="Corps B")
+    ligne_C, = ax.plot(r_Ci[0], r_Ci[1], 'r-', label="Corps C")
+
+    anim_ligne_A = lambda i: ligne_A.set_data(mouton["A"][:i, 0], mouton["A"][:i, 1])
+    anim_ligne_B = lambda i: ligne_B.set_data(mouton["B"][:i, 0], mouton["B"][:i, 1])
+    anim_ligne_C = lambda i: ligne_C.set_data(mouton["C"][:i, 0], mouton["C"][:i, 1])
+    anim_titre = lambda i: ax.set_title("Mouvement des trois corps\nà t= {}".format(round(mouton["t"][i], 3)))
+
+    frames_anim = len(mouton["t"])
+    graph_anim_A = FuncAnimation(fig, anim_ligne_A, frames=frames_anim, interval=1)
+    graph_anim_B = FuncAnimation(fig, anim_ligne_B, frames=frames_anim, interval=1)
+    graph_anim_C = FuncAnimation(fig, anim_ligne_C, frames=frames_anim, interval=1)
+    graph_anim_titre = FuncAnimation(fig, anim_titre, frames=frames_anim, interval=1)
+    plt.legend()
+    plt.grid()
+    plt.show()
+
+anim_3_corps(0, 1, 50000, 7)
+
+#if __name__ == "__main__":
+    #graph_3_corps(0, 2, 500000)
