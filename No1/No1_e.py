@@ -22,6 +22,8 @@ def graph(axe_y1, axe_y2, axe_x, titre):
     plt.grid()
     plt.plot(axe_x, axe_y1, "k-")
     plt.plot(axe_x, axe_y2, "r-")
+    label = ("vitesse v(t)", "déplacement x(t)")
+    plt.legend(label)
     plt.show()
 
 # on pose le range, on trouve notre liste de temps et on solutionne pour obtenir notre graphique
@@ -32,4 +34,4 @@ if __name__ == "__main__":
     solution = solve_ivp(vdp, [0, 8 * cst.pi], [0.5, 0], t_eval=t, method='RK45')
     sol = solution.y
 
-    graph(sol[0], sol[1], t, "Graphique du système de van der Pol du déplacement(noir) et de la vitesse(rouge) avec x(0) = 0.5")
+    graph(sol[0], sol[1], t, "Graphique du système de van der Pol du déplacement et de la vitesse avec x(0) = 0.5")
