@@ -64,10 +64,12 @@ def mouton_3_corps(t_i, t_f, N, slice=0):
     v_B_demie = v_Bi + 1/6*(k1_B_v+2*k2_B_v+2*k3_B_v+k4_B_v)
     v_C_demie = v_Ci + 1/6*(k1_C_v+2*k2_C_v+2*k3_C_v+k4_C_v)
 
+    # on trouve r(t+1/2h)
     r_A_demie = r_Ai + 0.5*h*v_A_demie
     r_B_demie = r_Bi + 0.5*h*v_B_demie
     r_C_demie = r_Ci + 0.5*h*v_C_demie
 
+    # On définit v(t) et r(t)
     v_A = v_Ai
     v_B = v_Bi
     v_C = v_Ci
@@ -76,6 +78,7 @@ def mouton_3_corps(t_i, t_f, N, slice=0):
     r_B = r_Bi
     r_C = r_Ci
 
+    # on enregistre la première rangée des array contenant les positions et t
     rA_arr[0][0], rA_arr[0][1] = r_A[0], r_A[1]
     rB_arr[0][0], rB_arr[0][1] = r_B[0], r_B[1]
     rC_arr[0][0], rC_arr[0][1] = r_C[0], r_C[1]
@@ -106,6 +109,8 @@ def mouton_3_corps(t_i, t_f, N, slice=0):
     if slice == 0:
         return {"A": rA_arr, "B": rB_arr, "C": rC_arr, "t": t_points}
 
+    # coupe de moitié les array de résultats un nombre de fois égale à slice
+    # permet donc aux animations d'être observées dans un délai raisonnable
     for s in range(slice):
         rA_arr = np.delete(rA_arr, np.s_[1::2], 0)
         rB_arr = np.delete(rB_arr, np.s_[1::2], 0)
@@ -115,6 +120,23 @@ def mouton_3_corps(t_i, t_f, N, slice=0):
 
 
 np.set_printoptions(threshold=np.inf)
+
+
+def graph_3_corps(t_i, t_f, N):
+    # on appelle une fois la fonction pour avoir les array de résultats
+    mouton = mouton_3_corps(t_i, t_f, N)
+
+    # puis on fait un graphique des trajectoires
+    plt.figure(figsize=(12,6))
+    plt.plot(mouton["A"][:, 0], mouton["A"][:, 1], 'b-', label="Corps A,\nr_i={},\nv_i={}".format(np.round(r_Ai, 2), np.round(v_Ai, 2)))
+    plt.plot(mouton["B"][:, 0], mouton["B"][:, 1], 'g-', label="Corps B,\nr_i={},\nv_i={}".format(np.round(r_Bi, 2), np.round(v_Bi, 2)))
+    plt.plot(mouton["C"][:, 0], mouton["C"][:, 1], 'r-', label="Corps C,\nr_i={},\nv_i={}".format(np.round(r_Ci, 2), np.round(v_Ci, 2)))
+    plt.xlabel("Position en x [-]")
+    plt.ylabel("Position en y [-]")
+    plt.title("Trajectoires des corps A, B, et C pour N={}, t={}".format(N, t_f))
+    plt.legend(loc=5, prop={'size': 10})
+    plt.grid()
+    plt.show()
 
 
 def anim_3_corps(t_i, t_f, N, slice):
@@ -140,4 +162,9 @@ def anim_3_corps(t_i, t_f, N, slice):
     plt.grid()
     plt.show()
 
-anim_3_corps(0, 20, 500000, 10)
+#anim_3_corps(0, 6, 50000, 6)
+graph_3_corps(0, 3, 5000)
+
+v_Ai += 1e-2
+
+graph_3_corps(0, 6, 10000)
