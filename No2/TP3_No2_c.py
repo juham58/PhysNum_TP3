@@ -163,8 +163,16 @@ def anim_3_corps(t_i, t_f, N, slice):
     plt.show()
 
 #anim_3_corps(0, 6, 50000, 6)
-graph_3_corps(0, 3, 5000)
+#graph_3_corps(0, 3, 5000)
 
 v_Ai += 1e-2
 
-graph_3_corps(0, 6, 10000)
+#graph_3_corps(0, 6, 5000)
+
+v_Ai = np.array([1.587433767, 1.47221479])
+r_Ci += 1e-1
+
+graph_3_corps(0, 6, 50000)
+graph_3_corps(0, 200, 50000)
+graph_3_corps(0, 250, 50000)
+graph_3_corps(0, 251.5, 50000)
