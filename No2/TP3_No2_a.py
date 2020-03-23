@@ -1,7 +1,6 @@
 import numpy as np
 from scipy import constants
 import matplotlib.pyplot as plt
-import datetime
 from matplotlib.animation import FuncAnimation
 
 
@@ -22,9 +21,8 @@ v_Ai = np.array([0.0, 0.0])
 v_Bi = np.array([0.0, 0.0])
 v_Ci = np.array([0.0, 0.0])
 
-cond_init = (m_A, m_B, m_C, r_Ai, r_Bi, r_Ci, v_Ai, v_Bi, v_Ci)
 
-
+# définition de la force appliquée sur chacune des masses
 def F(corps, r_A, r_B, r_C):
     if corps == "A":
         return -G*(m_B*((r_A-r_B)/(np.linalg.norm(r_A-r_B)**3))
@@ -122,6 +120,7 @@ def mouton_3_corps(t_i, t_f, N, slice=0):
     return {"A": rA_arr, "B": rB_arr, "C": rC_arr, "t": t_points}
 
 
+# fonction d'affichage des trajectoires des corps à un certain temps et N
 def graph_3_corps(t_i, t_f, N):
     # on appelle une fois la fonction pour avoir les array de résultats
     mouton = mouton_3_corps(t_i, t_f, N)
@@ -139,6 +138,7 @@ def graph_3_corps(t_i, t_f, N):
     plt.show()
 
 
+# fonction d'animation des trajectoires pour N jusqu'à un certain t
 def anim_3_corps(t_i, t_f, N, slice):
     mouton = mouton_3_corps(t_i, t_f, N, slice)
     fig, ax = plt.subplots()
@@ -162,7 +162,10 @@ def anim_3_corps(t_i, t_f, N, slice):
     plt.grid()
     plt.show()
 
-# anim_3_corps(0, 1, 500000, 7)
+# animation des corps de t=0 à t=1 et N=500 000
+# anim_3_corps(0, 1, 500000, 5)
 
+
+# affiche les trajectoires à t=1 avec N=500 000
 if __name__ == "__main__":
     graph_3_corps(0, 1, 500000)

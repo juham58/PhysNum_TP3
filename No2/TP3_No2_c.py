@@ -119,9 +119,7 @@ def mouton_3_corps(t_i, t_f, N, slice=0):
     return {"A": rA_arr, "B": rB_arr, "C": rC_arr, "t": t_points}
 
 
-np.set_printoptions(threshold=np.inf)
-
-
+# fonction d'affichage des trajectoires des corps à un certain temps et N
 def graph_3_corps(t_i, t_f, N):
     # on appelle une fois la fonction pour avoir les array de résultats
     mouton = mouton_3_corps(t_i, t_f, N)
@@ -139,6 +137,7 @@ def graph_3_corps(t_i, t_f, N):
     plt.show()
 
 
+# fonction d'animation des trajectoires pour N jusqu'à un certain t
 def anim_3_corps(t_i, t_f, N, slice):
     mouton = mouton_3_corps(t_i, t_f, N, slice)
     fig, ax = plt.subplots()
@@ -162,17 +161,25 @@ def anim_3_corps(t_i, t_f, N, slice):
     plt.grid()
     plt.show()
 
-#anim_3_corps(0, 6, 50000, 6)
-#graph_3_corps(0, 3, 5000)
 
-v_Ai += 1e-2
+# animation d'une révolution complète du système stable
+anim_3_corps(0, 6, 5000, 4)
 
-#graph_3_corps(0, 6, 5000)
+# affichage de la figure 2.3 du fichier .tex
+# graph_3_corps(0, 3, 5000)
 
-v_Ai = np.array([1.587433767, 1.47221479])
-r_Ci += 1e-1
 
-graph_3_corps(0, 6, 50000)
-graph_3_corps(0, 200, 50000)
-graph_3_corps(0, 250, 50000)
-graph_3_corps(0, 251.5, 50000)
+# modification de la condition initiale et graphiques de la figure 2.4 du .tex
+# v_Ai += 1e-3
+# graph_3_corps(0, 6, 5000)
+# graph_3_corps(0, 24, 5000)
+# graph_3_corps(0, 96, 50000)
+# graph_3_corps(0, 1996, 500000)
+
+# modification de la condition initiale et graphiques de la figure 2.5 du .tex
+# v_Ai = np.array([1.587433767, 1.47221479])
+# r_Ci += 1e-1
+# graph_3_corps(0, 6, 50000)
+# graph_3_corps(0, 50, 50000)
+# graph_3_corps(0, 200, 50000)
+# graph_3_corps(0, 251.5, 50000)
