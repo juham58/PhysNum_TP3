@@ -162,10 +162,11 @@ def anim_3_corps(t_i, t_f, N, slice):
     plt.grid()
     plt.show()
 
-# animation des corps de t=0 à t=1 et N=500 000
-# anim_3_corps(0, 1, 500000, 5)
 
-
-# affiche les trajectoires à t=1 avec N=500 000
 if __name__ == "__main__":
-    graph_3_corps(0, 1, 500000)
+
+    # animation des corps de t=0 à t=1 et N=50 000
+    anim_3_corps(0, 1, 50000, 7)
+
+    # affiche les trajectoires à t=1 avec N=50 000
+    graph_3_corps(0, 1, 50000)
