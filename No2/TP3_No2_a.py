@@ -162,7 +162,7 @@ def anim_3_corps(t_i, t_f, N, slice):
     plt.grid()
     plt.show()
 
-anim_3_corps(0, 1, 500000, 7)
+# anim_3_corps(0, 1, 500000, 7)
 
 if __name__ == "__main__":
     graph_3_corps(0, 1, 500000)
