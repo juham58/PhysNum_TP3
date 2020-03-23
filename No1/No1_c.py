@@ -10,6 +10,7 @@ def periode(fonction, val_init):
         if liste1[i] > val_init:
             return liste2[i]
 
+
 if __name__ == "__main__":
     RK4_c1 = RK4(u_pt, v_pt, [1.0, 0.0], [0.0, 50.0], 10000)
     RK4_c3 = RK4(u_pt, v_pt, [3.0, 0.0], [0.0, 50.0], 100000)
